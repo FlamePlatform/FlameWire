@@ -200,7 +200,7 @@ const midlets = [];
 import {
   Midlet
 }
-from "../midlets/abstract";
+from "./midlets/abstract";
 export class Application extends ParentRouteAction {
   static instance;
   constructor() {
