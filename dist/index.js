@@ -53,7 +53,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var util = require('util');
 var Route = require("route-pattern");
-var log = require("debug")("info");
+var log = require("debug")("flame:wire");
+var join = require("url-join");
 
 var MethodRouteAction = exports.MethodRouteAction = (function () {
   function MethodRouteAction() {
@@ -63,7 +64,7 @@ var MethodRouteAction = exports.MethodRouteAction = (function () {
 
     if (action instanceof MethodRouteAction) {
       log("combining " + pattern + " and " + action.getPattern());
-      action.pattern = require("url-join")(pattern, action.getPattern());
+      action.pattern = join(pattern, action.getPattern());
       return action;
     }
 
@@ -71,7 +72,6 @@ var MethodRouteAction = exports.MethodRouteAction = (function () {
     this.pattern = pattern;
     this.route = Route.fromString(pattern);
     if (action) this.user_action = action;
-
     this.children = [];
   }
 
@@ -80,8 +80,8 @@ var MethodRouteAction = exports.MethodRouteAction = (function () {
     value: function action(req, res) {
       if (req) req.route = this;
       if (res) res.route = this;
-
-      return this.user_action();
+      log("performing user action for " + this.getPattern());
+      return this.user_action(req, res);
     }
   }, {
     key: "getApplication",
@@ -257,7 +257,9 @@ var ParentRouteAction = exports.ParentRouteAction = (function (_MethodRouteActio
   (0, _createClass3.default)(ParentRouteAction, [{
     key: "getRoute",
     value: function getRoute() {
-      return Route.fromString(this.getPattern() + "*");
+      var url = join(this.getPattern(), "/*");
+      log("Testing parent url " + url);
+      return Route.fromString(url);
     }
   }, {
     key: "match",
@@ -265,7 +267,7 @@ var ParentRouteAction = exports.ParentRouteAction = (function (_MethodRouteActio
       var good = false;
       if (this.children.length === 0) {
         good = this.getRoute().matches(req.path);
-      } else if (this.getRoute().matches(req.path)) {
+      } else {
         var _iteratorNormalCompletion = true;
         var _didIteratorError = false;
         var _iteratorError = undefined;
@@ -292,6 +294,10 @@ var ParentRouteAction = exports.ParentRouteAction = (function (_MethodRouteActio
               throw _iteratorError;
             }
           }
+        }
+
+        if (!good) {
+          log("no match found for");
         }
       }
       return good;
@@ -321,7 +327,7 @@ var ParentRouteAction = exports.ParentRouteAction = (function (_MethodRouteActio
     key: "action",
     value: (function () {
       var ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(req, res) {
-        var _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, child, _ref, _ref2;
+        var match, num, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, child, _ref, _ref2, util;
 
         return _regenerator2.default.wrap(function _callee6$(_context6) {
           while (1) {
@@ -329,92 +335,108 @@ var ParentRouteAction = exports.ParentRouteAction = (function (_MethodRouteActio
               case 0:
                 if (req) req.route = this;
                 if (res) res.route = this;
+                match = false;
+                num = 0;
                 _iteratorNormalCompletion2 = true;
                 _didIteratorError2 = false;
                 _iteratorError2 = undefined;
-                _context6.prev = 5;
+                _context6.prev = 7;
                 _iterator2 = (0, _getIterator3.default)(this.children);
 
-              case 7:
+              case 9:
                 if (_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done) {
-                  _context6.next = 24;
+                  _context6.next = 30;
                   break;
                 }
 
                 child = _step2.value;
 
                 if (!child.match(req, res)) {
-                  _context6.next = 21;
+                  _context6.next = 26;
                   break;
                 }
 
-                _context6.next = 12;
+                log("found a match for " + req.path);
+                _context6.next = 15;
                 return child.action(req, res);
 
-              case 12:
+              case 15:
                 _ref = _context6.sent;
                 _ref2 = (0, _slicedToArray3.default)(_ref, 2);
                 req = _ref2[0];
                 res = _ref2[1];
 
                 if (!(!!!req || !!!res)) {
-                  _context6.next = 20;
+                  _context6.next = 23;
                   break;
                 }
 
-                return _context6.abrupt("break", 24);
+                return _context6.abrupt("break", 30);
 
-              case 20:
-                console.log("not breaking using null");
-
-              case 21:
-                _iteratorNormalCompletion2 = true;
-                _context6.next = 7;
-                break;
+              case 23:
+                log("req is " + !!req + " and res is " + !!res + " therefore not breaking");
 
               case 24:
-                _context6.next = 30;
+                _context6.next = 27;
                 break;
 
               case 26:
-                _context6.prev = 26;
-                _context6.t0 = _context6["catch"](5);
+                log("no match for child " + child.getPattern());
+
+              case 27:
+                _iteratorNormalCompletion2 = true;
+                _context6.next = 9;
+                break;
+
+              case 30:
+                _context6.next = 36;
+                break;
+
+              case 32:
+                _context6.prev = 32;
+                _context6.t0 = _context6["catch"](7);
                 _didIteratorError2 = true;
                 _iteratorError2 = _context6.t0;
 
-              case 30:
-                _context6.prev = 30;
-                _context6.prev = 31;
+              case 36:
+                _context6.prev = 36;
+                _context6.prev = 37;
 
                 if (!_iteratorNormalCompletion2 && _iterator2.return) {
                   _iterator2.return();
                 }
 
-              case 33:
-                _context6.prev = 33;
+              case 39:
+                _context6.prev = 39;
 
                 if (!_didIteratorError2) {
-                  _context6.next = 36;
+                  _context6.next = 42;
                   break;
                 }
 
                 throw _iteratorError2;
 
-              case 36:
-                return _context6.finish(33);
+              case 42:
+                return _context6.finish(39);
 
-              case 37:
-                return _context6.finish(30);
+              case 43:
+                return _context6.finish(36);
 
-              case 38:
+              case 44:
+                util = require("util");
+
+                if (!match) {
+                  res.writeHead(404);
+                  res.end();
+                }
                 return _context6.abrupt("return", [req, res]);
 
-              case 39:
+              case 47:
               case "end":
                 return _context6.stop();
             }
           }
-        }, _callee6, this, [[5, 26, 30, 38], [31,, 33, 37]]);
+        }, _callee6, this, [[7, 32, 36, 44], [37,, 39, 43]]);
       }));
       return function action(_x17, _x18) {
         return ref.apply(this, arguments);
@@ -507,9 +529,9 @@ var Application = exports.Application = (function (_ParentRouteAction) {
     }
   }, {
     key: "registerMidlet",
-    value: function registerMidlet(name, dependencies, action) {
+    value: function registerMidlet(name, dependencies, action, overrides) {
 
-      if (name instanceof _abstract.Midlet) {
+      if (name.name && name.action) {
         midlets[name.name] = name;
       } else {
         midlets[name] = new _abstract.Midlet(name, dependencies, action);
@@ -645,6 +667,11 @@ var Application = exports.Application = (function (_ParentRouteAction) {
       var port = arguments.length <= 0 || arguments[0] === undefined ? 3000 : arguments[0];
 
       require("http").createServer(this.action.bind(this)).listen(port);
+    }
+  }], [{
+    key: "Router",
+    value: function Router() {
+      return new ParentRouteAction();
     }
   }]);
   return Application;

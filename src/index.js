@@ -1,6 +1,7 @@
 var util = require('util');
 var Route = require("route-pattern");
-var log = require("debug")("info");
+var log = require("debug")("flame:wire");
+var join =require("url-join");
 
 import {
   Container
@@ -12,7 +13,7 @@ export class MethodRouteAction {
   constructor(pattern = "", action) {
     if (action instanceof MethodRouteAction) {
       log(`combining ${pattern} and ${action.getPattern()}`);
-      action.pattern = require("url-join")(pattern, action.getPattern());
+      action.pattern = join(pattern, action.getPattern());
       return action;
     }
 
@@ -22,7 +23,6 @@ export class MethodRouteAction {
     this.route = Route.fromString(pattern);
     if (action)
       this.user_action = action;
-
     this.children = [];
   }
 
@@ -31,8 +31,8 @@ export class MethodRouteAction {
     req.route=this;
     if(res)
     res.route=this;
-
-    return this.user_action();
+    log(`performing user action for ${this.getPattern()}`);
+    return this.user_action(req,res);
   }
 
   getApplication() {
@@ -116,19 +116,24 @@ export class ParentRouteAction extends MethodRouteAction {
   }
 
   getRoute() {
-    return Route.fromString(this.getPattern() + "*");
+    let url = join(this.getPattern(),"/*");
+    log(`Testing parent url ${url}`);
+    return Route.fromString(url);
   }
 
   match(req, res) {
     var good = false
     if (this.children.length === 0) {
       good = this.getRoute().matches(req.path);
-    } else if (this.getRoute().matches(req.path)) {
+    }else{
       for (var child of this.children) {
         if (child.match(req, res)) {
           good = true;
           break;
         }
+      }
+      if(!good){
+        log(`no match found for`);
       }
     }
     return good;
@@ -143,15 +148,25 @@ export class ParentRouteAction extends MethodRouteAction {
     req.route=this;
     if(res)
     res.route=this;
+    let match=false;
+    let num=0;
     for (let child of this.children) {
       if (child.match(req, res)) {
+        log(`found a match for ${req.path}`);
         [req, res] = await child.action(req, res)
         if (!!!req || !!!res) {
           break;
         } else {
-          console.log("not breaking using null");
+          log(`req is ${!!req} and res is ${!!res} therefore not breaking`);
         }
+      }else{
+        log(`no match for child ${child.getPattern()}`);
       }
+    }
+    var util = require("util");
+    if(!match){
+      res.writeHead(404);
+      res.end();
     }
     return [req, res];
   }
@@ -197,10 +212,7 @@ export class GetRouterAction extends MethodRouteAction {
 
 
 const midlets = [];
-import {
-  Midlet
-}
-from "./midlets/abstract";
+
 export class Application extends ParentRouteAction {
   static instance;
   constructor() {
@@ -212,6 +224,10 @@ export class Application extends ParentRouteAction {
     }
   }
 
+  static Router(){
+    return new ParentRouteAction();
+  }
+
   action(req, res) {
     var url = require('url');
     var merge = require('merge');
@@ -221,9 +237,9 @@ export class Application extends ParentRouteAction {
     req.pathname = urlr.pathname;
     return super.action(req, res);
   }
-  registerMidlet(name, dependencies, action) {
+  registerMidlet(name, dependencies, action,overrides) {
 
-    if (name instanceof Midlet) {
+    if (name.name && name.action) {
       midlets[name.name] = name;
     } else {
       midlets[name] = new Midlet(name, dependencies, action);
