@@ -47,8 +47,6 @@ var _createClass3 = _interopRequireDefault(_createClass2);
 
 var _container = require("./container");
 
-var _abstract = require("./midlets/abstract");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var util = require('util');
@@ -534,7 +532,7 @@ var Application = exports.Application = (function (_ParentRouteAction) {
       if (name.name && name.action) {
         midlets[name.name] = name;
       } else {
-        midlets[name] = new _abstract.Midlet(name, dependencies, action);
+        midlets[name] = new Midlet(name, dependencies, action);
       }
     }
   }, {

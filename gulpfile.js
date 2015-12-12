@@ -5,8 +5,8 @@ var print = require("gulp-print");
 
 
 gulp.task("build", function() {
-  return gulp.src("src/**.js").
-  pipe(watch("src/**.js")).
+  return gulp.src("src/**/*.js").
+  pipe(watch("src/**/*.js")).
   pipe(babel({
     presets: ["es2015", "stage-0"],
     plugins: ["transform-runtime"]

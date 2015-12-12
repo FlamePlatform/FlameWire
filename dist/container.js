@@ -23,6 +23,8 @@ var singleton = [];
 var _class = [];
 var middleware = [];
 
+//Contain for files
+
 var Container = exports.Container = (function () {
   function Container() {
     (0, _classCallCheck3.default)(this, Container);
