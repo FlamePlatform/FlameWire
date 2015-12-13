@@ -1,5 +1,5 @@
 {
-  "name": "flamewire",
+  "name": "flame-wire",
   "version": "0.0.1",
   "description": "",
   "main": "dist/index.js",
@@ -40,6 +40,7 @@
     "babel-cli": "^6.3.15",
     "babel-runtime": "^5.8.34",
     "merge": "^1.2.0",
+    "parent-require": "^1.0.0",
     "path-parser": "^0.5.0",
     "route-pattern": "0.0.6",
     "url-join": "0.0.1"

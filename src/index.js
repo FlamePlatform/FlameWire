@@ -3,6 +3,13 @@ var Route = require("route-pattern");
 var log = require("debug")("flame:wire");
 var join =require("url-join");
 
+try{
+  debugger;
+let Midlet = require("midlet")
+}catch(e){
+  Midlet = require("parent-require")("midlet");
+}
+
 import {
   Container
 }
@@ -23,7 +30,6 @@ export class MethodRouteAction {
     this.route = Route.fromString(pattern);
     if (action)
       this.user_action = action;
-    this.children = [];
   }
 
   action(req,res){
@@ -46,20 +52,6 @@ export class MethodRouteAction {
 
   getRoute() {
     return Route.fromString(this.getPattern());
-  }
-
-  async get(url, action) {
-    return this.register(GetRouterAction, url, action)
-  }
-
-  async post(url, action) {
-    return this.register(PostRouteAction, url, action);
-  }
-
-  async use(url, action) {
-    log(`url is ${url} this is a function action. Using the register to log it.`);
-    await this.register(MethodRouteAction, url, action);
-    return this;
   }
 
   getPattern() {
@@ -170,6 +162,21 @@ export class ParentRouteAction extends MethodRouteAction {
     }
     return [req, res];
   }
+
+//Standard Methods
+  async get(url, action) {
+    return this.register(GetRouterAction, url, action)
+  }
+
+  async post(url, action) {
+    return this.register(PostRouteAction, url, action);
+  }
+
+  async use(url, action) {
+    log(`url is ${url} this is a function action. Using the register to log it.`);
+    await this.register(MethodRouteAction, url, action);
+    return this;
+  }
 }
 
 
@@ -186,10 +193,6 @@ export class PostRouteAction extends MethodRouteAction {
     }
     return super.match(req, res);
   }
-
-  get() {
-    throw new Error("Cannot create post request from get branch")
-  }
 }
 
 export class GetRouterAction extends MethodRouteAction {
@@ -204,9 +207,6 @@ export class GetRouterAction extends MethodRouteAction {
     return super.match(req, res);
   }
 
-  post() {
-    throw new Error("Cannot create get request from post branch")
-  }
 }
 
 
@@ -242,7 +242,7 @@ export class Application extends ParentRouteAction {
     if (name.name && name.action) {
       midlets[name.name] = name;
     } else {
-      midlets[name] = new Midlet(name, dependencies, action);
+      midlets[name] = new Midlet(name, dependencies, action,overrides);
     }
   }
 
