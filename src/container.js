@@ -10,7 +10,6 @@ export class Container {
       return instance;
     }
   }
-
   check(name) {
     if (singleton[name]) {
       throw new Error("Name already added as Singleton");
