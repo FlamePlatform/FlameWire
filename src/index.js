@@ -206,10 +206,7 @@ export class GetRouterAction extends MethodRouteAction {
     }
     return super.match(req, res);
   }
-
 }
-
-
 
 const midlets = [];
 
@@ -219,6 +216,7 @@ export class Application extends ParentRouteAction {
     super();
     if (!!!Application.instance) {
       Application.instance = this;
+      this.container = new Container();
     } else {
       return Application.instance;
     }
@@ -226,6 +224,15 @@ export class Application extends ParentRouteAction {
 
   static Router(){
     return new ParentRouteAction();
+  }
+
+
+  setInstance(){
+    this.container.singleton.apply(this.container,arguments);
+  }
+
+  get(name){
+    return this.container.get(name);
   }
 
   action(req, res) {

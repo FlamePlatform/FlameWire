@@ -24,7 +24,6 @@ export class Container {
     this.singletonReplace(name, _class);
   }
 
-
   singletonReplace(name, _class) {
     if (typeof _class === "object") {
       singleton[name] = _class;
