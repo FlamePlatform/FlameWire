@@ -23,8 +23,6 @@ export class MethodRouteAction {
       action.pattern = join(pattern, action.getPattern());
       return action;
     }
-
-
     this.original_pattern = pattern;
     this.pattern = pattern;
     this.route = Route.fromString(pattern);
