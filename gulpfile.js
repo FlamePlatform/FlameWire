@@ -1,7 +1,9 @@
+'use strict';
 var gulp = require("gulp")
 var watch = require("gulp-watch")
 var babel = require("gulp-babel")
 var print = require("gulp-print");
+var newer = require("gulp-newer")
 
 
 gulp.task("watch", function() {
@@ -16,9 +18,11 @@ gulp.task("watch", function() {
   })).
   pipe(gulp.dest("dist"))
 })
-
+gulp.task("build-all",["build"])
 gulp.task("build", function() {
+  let dest ="dist";
   return gulp.src("src/**/*.js").
+  pipe(newer(dest)).
   pipe(babel({
     presets: ["es2015", "stage-0"],
     plugins: ["transform-runtime"]
@@ -26,5 +30,5 @@ gulp.task("build", function() {
   pipe(print(function(file){
     return "built "+file
   })).
-  pipe(gulp.dest("dist"))
+  pipe(gulp.dest(dest))
 })
