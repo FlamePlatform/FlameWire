@@ -1,24 +1,69 @@
-var util = require('util');
-var Route = require("route-pattern");
-var debug = require("debug");
-let log = require("debug")("flame:wire");
-var join = require("url-join");
-let logr = debug("flame:wire:route");
-var url = require('url');
-var merge = require('merge');
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">src/index.js | API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/container.js~Container.html">Container</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/index.js~Application.html">Application</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/index.js~GetRouterAction.html">GetRouterAction</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/index.js~MethodRouteAction.html">MethodRouteAction</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/index.js~ParentRouteAction.html">ParentRouteAction</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/index.js~PostRouteAction.html">PostRouteAction</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/index.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">var util = require(&apos;util&apos;);
+var Route = require(&quot;route-pattern&quot;);
+var debug = require(&quot;debug&quot;);
+let log = require(&quot;debug&quot;)(&quot;flame:wire&quot;);
+var join = require(&quot;url-join&quot;);
+let logr = debug(&quot;flame:wire:route&quot;);
+var url = require(&apos;url&apos;);
+var merge = require(&apos;merge&apos;);
 
 
 try {
   debugger;
-  let Midlet = require("midlet")
+  let Midlet = require(&quot;midlet&quot;)
 } catch (e) {
-  Midlet = require("parent-require")("midlet");
+  Midlet = require(&quot;parent-require&quot;)(&quot;midlet&quot;);
 }
 
 import {
   Container
 }
-from "./container";
+from &quot;./container&quot;;
 
 
 /**
@@ -43,7 +88,7 @@ export class MethodRouteAction {
   *
   *
   */
-  constructor(pattern = "", action) {
+  constructor(pattern = &quot;&quot;, action) {
     if (action instanceof MethodRouteAction) {
       log(`combining ${pattern} and ${action.getPattern()}`);
       action.pattern = join(pattern, action.getPattern());
@@ -102,9 +147,9 @@ export class MethodRouteAction {
   ******/
   getPattern() {
     if (this.parent) {
-      return require("url-join")(this.parent.getPattern(), this.pattern || "/");
+      return require(&quot;url-join&quot;)(this.parent.getPattern(), this.pattern || &quot;/&quot;);
     } else {
-      return this.pattern || "/";
+      return this.pattern || &quot;/&quot;;
     }
   }
 
@@ -116,7 +161,7 @@ export class MethodRouteAction {
   * @return {ParentRouteAction}
   *******/
   static Router() {
-    return new ParentRouteAction("/");
+    return new ParentRouteAction(&quot;/&quot;);
   }
 
   /**
@@ -124,7 +169,7 @@ export class MethodRouteAction {
   *@return {Function} used to unregister an added route
   *
   *****/
-  async register(_class = null, url = "/", action) {
+  async register(_class = null, url = &quot;/&quot;, action) {
     let log = logr;
     var request = new _class(url, action);
     request.parent = this;
@@ -166,14 +211,14 @@ export class ParentRouteAction extends MethodRouteAction {
   *
   *
   **/
-  constructor(pattern = "") {
+  constructor(pattern = &quot;&quot;) {
     super(pattern);
     this.pattern = pattern;
     this.children = [];
   }
 
   getRoute() {
-    let url = join(this.getPattern(), "/*");
+    let url = join(this.getPattern(), &quot;/*&quot;);
     log(`Testing parent url ${url}`);
     return Route.fromString(url);
   }
@@ -253,7 +298,7 @@ export class PostRouteAction extends MethodRouteAction {
   }
 
   match(req, res) {
-    if (req.method.toLowerCase() !== "post") {
+    if (req.method.toLowerCase() !== &quot;post&quot;) {
       return false;
     }
     return super.match(req, res);
@@ -281,7 +326,7 @@ export class GetRouterAction extends MethodRouteAction {
   }
 
   match(req, res) {
-    if (req.method.toLowerCase() !== "get") {
+    if (req.method.toLowerCase() !== &quot;get&quot;) {
       return false;
     }
     return super.match(req, res);
@@ -343,7 +388,7 @@ export class Application extends ParentRouteAction {
 
   registerMidlet(name, dependencies, action, overrides) {
 
-    if (name.name && name.action) {
+    if (name.name &amp;&amp; name.action) {
       midlets[name.name] = name;
     } else {
       midlets[name] = new Midlet(name, dependencies, action, overrides);
@@ -354,16 +399,16 @@ export class Application extends ParentRouteAction {
     if (names === null) {
       return;
     }
-    log(`midlets to work on are '${names}'`);
+    log(`midlets to work on are &apos;${names}&apos;`);
     req.midlets = req.midlets || [];
-    if (typeof names === "string") {
-      names = names.split("|").map(s => s.trim());
+    if (typeof names === &quot;string&quot;) {
+      names = names.split(&quot;|&quot;).map(s =&gt; s.trim());
     }
-    log(`midlets to work on are '${names}'`);
+    log(`midlets to work on are &apos;${names}&apos;`);
     for (let name of names) {
       log(`working on midlet ${name}`);
       try {
-        if (req.midlets.indexOf(name) > -1) {
+        if (req.midlets.indexOf(name) &gt; -1) {
           log(`midlet alrady used`);
           continue;
         }
@@ -386,6 +431,23 @@ export class Application extends ParentRouteAction {
   * @param {Fuction} callback The callback function to run onces the application has booted.
   **/
   listen(port = 3000, callback) {
-    require("http").createServer(this.action.bind(this)).listen(port, callback);
+    require(&quot;http&quot;).createServer(this.action.bind(this)).listen(port, callback);
   }
 }
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.3)</span></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

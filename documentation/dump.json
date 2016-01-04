@@ -1,0 +1,2299 @@
+[
+  {
+    "__docId__": 0,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/container.js",
+    "memberof": null,
+    "longname": "src/container.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "const singleton = [];\r\nconst _class = [];\r\nconst middleware = [];\r\n\r\n\r\n//Contain for files\r\nexport class Container {\r\n  constructor() {\r\n    if (instance) {\r\n      return instance;\r\n    }\r\n  }\r\n  check(name) {\r\n    if (singleton[name]) {\r\n      throw new Error(\"Name already added as Singleton\");\r\n    }\r\n    if (_class[name]) {\r\n      throw new Error(\"Name already added as Class\");\r\n    }\r\n  }\r\n\r\n  singleton(name, _class) {\r\n    this.check(name);\r\n    this.singletonReplace(name, _class);\r\n  }\r\n\r\n  singletonReplace(name, _class) {\r\n    if (typeof _class === \"object\") {\r\n      singleton[name] = _class;\r\n    } else if (typeof _class === \"function\") {\r\n      singleton[name] = _class;\r\n    } else {\r\n      throw new Error(\"singleton requires a class or class constructor\");\r\n    }\r\n  }\r\n\r\n  instance(name, __class) {\r\n    this.check(name);\r\n    if (typeof __class !== \"function\") {\r\n      throw new Error(\"object expects a construct for an object\");\r\n    } else {\r\n      _class[name] = __class;\r\n    }\r\n  }\r\n\r\n  get(name) {\r\n    return this.getSingleton(name) || this.getClass(name);\r\n  }\r\n\r\n  getSingleton(name) {\r\n    var object = singleton[name];\r\n    switch (typeof object) {\r\n      case \"object\":\r\n        return object;\r\n      case \"function\":\r\n        singleton[name] = new object();\r\n        return singleton[name];\r\n      default:\r\n        return;\r\n    }\r\n  }\r\n\r\n  getClass(name) {\r\n    var object = _class[name];\r\n    switch (typeof object) {\r\n      case \"function\":\r\n        return new object();\r\n      default:\r\n        return null;\r\n    }\r\n  }\r\n\r\n  remove(name) {\r\n    var good = true;\r\n    if (singleton[name]) {\r\n      delete singleton[name];\r\n    } else if (_class[name]) {\r\n      delete _class[name];\r\n    } else {\r\n      good = false;\r\n    }\r\n    return good;\r\n  }\r\n}\r\n\r\nconst instance = new Container();\r\n"
+  },
+  {
+    "__docId__": 1,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "singleton",
+    "memberof": "src/container.js",
+    "longname": "src/container.js~singleton",
+    "access": null,
+    "export": false,
+    "importPath": "flame-wire/src/container.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 1,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 2,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "_class",
+    "memberof": "src/container.js",
+    "longname": "src/container.js~_class",
+    "access": null,
+    "export": false,
+    "importPath": "flame-wire/src/container.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 3,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "middleware",
+    "memberof": "src/container.js",
+    "longname": "src/container.js~middleware",
+    "access": null,
+    "export": false,
+    "importPath": "flame-wire/src/container.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 4,
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "Container",
+    "memberof": "src/container.js",
+    "longname": "src/container.js~Container",
+    "access": null,
+    "export": true,
+    "importPath": "flame-wire/src/container.js",
+    "importStyle": "{Container}",
+    "description": null,
+    "lineNumber": 7,
+    "undocument": true,
+    "interface": false
+  },
+  {
+    "__docId__": 5,
+    "kind": "constructor",
+    "static": false,
+    "variation": null,
+    "name": "constructor",
+    "memberof": "src/container.js~Container",
+    "longname": "src/container.js~Container#constructor",
+    "access": null,
+    "description": null,
+    "lineNumber": 8,
+    "undocument": true,
+    "params": [],
+    "generator": false
+  },
+  {
+    "__docId__": 6,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "check",
+    "memberof": "src/container.js~Container",
+    "longname": "src/container.js~Container#check",
+    "access": null,
+    "description": null,
+    "lineNumber": 13,
+    "undocument": true,
+    "params": [
+      {
+        "name": "name",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "generator": false
+  },
+  {
+    "__docId__": 7,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "singleton",
+    "memberof": "src/container.js~Container",
+    "longname": "src/container.js~Container#singleton",
+    "access": null,
+    "description": null,
+    "lineNumber": 22,
+    "undocument": true,
+    "params": [
+      {
+        "name": "name",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "_class",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "generator": false
+  },
+  {
+    "__docId__": 8,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "singletonReplace",
+    "memberof": "src/container.js~Container",
+    "longname": "src/container.js~Container#singletonReplace",
+    "access": null,
+    "description": null,
+    "lineNumber": 27,
+    "undocument": true,
+    "params": [
+      {
+        "name": "name",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "_class",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "generator": false
+  },
+  {
+    "__docId__": 9,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "instance",
+    "memberof": "src/container.js~Container",
+    "longname": "src/container.js~Container#instance",
+    "access": null,
+    "description": null,
+    "lineNumber": 37,
+    "undocument": true,
+    "params": [
+      {
+        "name": "name",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "__class",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "generator": false
+  },
+  {
+    "__docId__": 10,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "get",
+    "memberof": "src/container.js~Container",
+    "longname": "src/container.js~Container#get",
+    "access": null,
+    "description": null,
+    "lineNumber": 46,
+    "undocument": true,
+    "params": [
+      {
+        "name": "name",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 11,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "getSingleton",
+    "memberof": "src/container.js~Container",
+    "longname": "src/container.js~Container#getSingleton",
+    "access": null,
+    "description": null,
+    "lineNumber": 50,
+    "undocument": true,
+    "params": [
+      {
+        "name": "name",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 12,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "getClass",
+    "memberof": "src/container.js~Container",
+    "longname": "src/container.js~Container#getClass",
+    "access": null,
+    "description": null,
+    "lineNumber": 63,
+    "undocument": true,
+    "params": [
+      {
+        "name": "name",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 13,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "remove",
+    "memberof": "src/container.js~Container",
+    "longname": "src/container.js~Container#remove",
+    "access": null,
+    "description": null,
+    "lineNumber": 73,
+    "undocument": true,
+    "params": [
+      {
+        "name": "name",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 14,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "instance",
+    "memberof": "src/container.js",
+    "longname": "src/container.js~instance",
+    "access": null,
+    "export": false,
+    "importPath": "flame-wire/src/container.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 86,
+    "undocument": true,
+    "type": {
+      "types": [
+        "src/container.js~Container"
+      ]
+    }
+  },
+  {
+    "__docId__": 15,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/index.js",
+    "memberof": null,
+    "longname": "src/index.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "var util = require('util');\nvar Route = require(\"route-pattern\");\nvar debug = require(\"debug\");\nlet log = require(\"debug\")(\"flame:wire\");\nvar join = require(\"url-join\");\nlet logr = debug(\"flame:wire:route\");\nvar url = require('url');\nvar merge = require('merge');\n\n\ntry {\n  debugger;\n  let Midlet = require(\"midlet\")\n} catch (e) {\n  Midlet = require(\"parent-require\")(\"midlet\");\n}\n\nimport {\n  Container\n}\nfrom \"./container\";\n\n\n/**\n*\n*\n*\n*\n*\n*\n******/\nexport class MethodRouteAction {\n\n\n  /**\n  *\n  * @param {string} pattern The pattern for the generated route.\n  * @param {Function(req:ServerRequest,res:ServerResponse):Array} action The function the route performs if matched\n  *\n  *\n  *\n  *\n  *\n  *\n  */\n  constructor(pattern = \"\", action) {\n    if (action instanceof MethodRouteAction) {\n      log(`combining ${pattern} and ${action.getPattern()}`);\n      action.pattern = join(pattern, action.getPattern());\n      return action;\n    }\n    this.original_pattern = pattern;\n    this.pattern = pattern;\n    this.route = Route.fromString(pattern);\n    if (action)\n      this.user_action = action;\n  }\n\n  /**\n  * Calls the action that was passed from the constructor\n  *\n  **************/\n  action(req, res) {\n    if (req)\n      req.route = this;\n    if (res)\n      res.route = this;\n    log(`performing user action for ${this.getPattern()}`);\n    return this.user_action(req, res);\n  }\n\n\n  /**\n  * Returns the Application Instance\n  * @return {Application}\n  ***********/\n  getApplication() {\n    return new Application();\n  }\n\n\n\n  /**\n  * Checks if the url matches the route.\n  *****/\n  match(req, res) {\n    log(`checking for a match ${req.path} with the pattern ${this.getPattern()}`)\n    return this.getRoute().matches(req.path);\n  }\n\n  /**\n  * Generates the route that can be used to test if there is a match in a url;\n  *\n  ********/\n  getRoute() {\n    return Route.fromString(this.getPattern());\n  }\n\n\n  /**\n  * Gets the pattern for the route. This will include all of the parents url as well.\n  ******/\n  getPattern() {\n    if (this.parent) {\n      return require(\"url-join\")(this.parent.getPattern(), this.pattern || \"/\");\n    } else {\n      return this.pattern || \"/\";\n    }\n  }\n\n\n  /**\n  *\n  * Gemerates a Router parent. This can be used to add more to the main router\n  *\n  * @return {ParentRouteAction}\n  *******/\n  static Router() {\n    return new ParentRouteAction(\"/\");\n  }\n\n  /**\n  *\n  *@return {Function} used to unregister an added route\n  *\n  *****/\n  async register(_class = null, url = \"/\", action) {\n    let log = logr;\n    var request = new _class(url, action);\n    request.parent = this;\n    this.children.push(request);\n    var unregister = function(parent, request) {\n      var remove = function() {\n        log(`Removing ${request.getPattern()}`);\n        let index = parent.children.indexOf(request);\n        parent.children.splice(index, 1);\n        if (parent.children.length === 0) {\n          if (parent.delete) {\n            parent.delete();\n          }\n        }\n      }\n      return remove;\n    }(this, request);\n\n    request.delete = unregister;\n    log(`registered: ${request.getPattern()}`);\n    return unregister;\n  }\n\n}\n\n\n/**\n*\n*\n*@extends {MethodRouteAction}\n*\n*************/\n\nexport class ParentRouteAction extends MethodRouteAction {\n\n  /**\n  *\n  *\n  *\n  *\n  **/\n  constructor(pattern = \"\") {\n    super(pattern);\n    this.pattern = pattern;\n    this.children = [];\n  }\n\n  getRoute() {\n    let url = join(this.getPattern(), \"/*\");\n    log(`Testing parent url ${url}`);\n    return Route.fromString(url);\n  }\n\n  match(req, res) {\n    var good = false\n    if (this.children.length === 0) {\n      good = this.getRoute().matches(req.path);\n    } else {\n      for (var child of this.children) {\n        if (child.match(req, res)) {\n          good = true;\n          break;\n        }\n      }\n      if (!good) {\n        log(`no match found for`);\n      }\n    }\n    return good;\n  }\n\n  async register(_class, url, action) {\n    return super.register(_class, url, action);\n  }\n\n  async action(req, res) {\n    if (req)\n      req.route = this;\n    if (res)\n      res.route = this;\n    let match = false;\n    let num = 0;\n    for (let child of this.children) {\n      if (child.match(req, res)) {\n        log(`match: ${req.path}`);\n        [req, res] = await child.action(req, res)\n        if (!!!req || !!!res) {\n          break;\n          //TODO hooks\n        }\n      } else {\n        log(`no match: ${child.getPattern()}`);\n      }\n    }\n    if (!match) {\n      res.writeHead(404);\n      res.end();\n    }\n    return [req, res];\n  }\n\n  //Standard Methods\n  async get(url, action) {\n    return this.register(GetRouterAction, url, action)\n  }\n\n  async post(url, action) {\n    return this.register(PostRouteAction, url, action);\n  }\n\n  async use(url, action) {\n    await this.register(MethodRouteAction, url, action);\n    return this;\n  }\n}\n\n\n/**\n* Allows only post navigation. This class is used when app.post is used\n* @extends {MethodRouteAction}\n*/\nexport class PostRouteAction extends MethodRouteAction {\n\n  constructor(pattern, action) {\n    super(pattern, action);\n  }\n\n  match(req, res) {\n    if (req.method.toLowerCase() !== \"post\") {\n      return false;\n    }\n    return super.match(req, res);\n  }\n}\n\n\n\n\n\n\n\n/**\n*\n*\n*\n* Allows for Get Request navigation. used by app.get method\n*\n*\n* @extends {MethodRouteAction}\n****/\nexport class GetRouterAction extends MethodRouteAction {\n  constructor(pattern, action) {\n    super(pattern, action);\n  }\n\n  match(req, res) {\n    if (req.method.toLowerCase() !== \"get\") {\n      return false;\n    }\n    return super.match(req, res);\n  }\n}\n\nconst midlets = [];\n\n\n/**\n* This is the main application route. It is also the route that everything will be linked to.\n* This is used to create the server\n*/\nexport class Application extends ParentRouteAction {\n  static instance;\n  constructor() {\n    super();\n    if (!!!Application.instance) {\n      Application.instance = this;\n      this.container = new Container();\n    } else {\n      return Application.instance;\n    }\n  }\n\n  static Router() {\n    //Creates a router to begin mapping\n    return new ParentRouteAction();\n  }\n\n  /**\n  *Allows the developer to set a singleton. They can then retrieve this value with getItem method\n  *\n  */\n  setInstance() {\n    this.container.singleton.apply(this.container, arguments);\n  }\n\n  /**\n  *\n  *\n  *@param {String} name The name of the item stored in the Application container.\n  *\n  *******/\n  getItem(name) {\n    return this.container.get(name);\n  }\n\n\n\n  action(req, res) {\n    var urlr = url.parse(req.url);\n\n    req.path = urlr.path;\n    req.pathname = urlr.pathname;\n    return super.action(req, res);\n  }\n\n\n  registerMidlet(name, dependencies, action, overrides) {\n\n    if (name.name && name.action) {\n      midlets[name.name] = name;\n    } else {\n      midlets[name] = new Midlet(name, dependencies, action, overrides);\n    }\n  }\n\n  async pipe(names, req, res) {\n    if (names === null) {\n      return;\n    }\n    log(`midlets to work on are '${names}'`);\n    req.midlets = req.midlets || [];\n    if (typeof names === \"string\") {\n      names = names.split(\"|\").map(s => s.trim());\n    }\n    log(`midlets to work on are '${names}'`);\n    for (let name of names) {\n      log(`working on midlet ${name}`);\n      try {\n        if (req.midlets.indexOf(name) > -1) {\n          log(`midlet alrady used`);\n          continue;\n        }\n        let m = midlets[name];\n        await this.pipe(m.dependencies, req, res);\n        await m.action(req, res);\n        req.midlets.push(m.name);\n      } catch (e) {\n        log(`error while working on midlet ${name}`);\n        log(e.message);\n        log(e.stack);\n        throw e;\n      }\n    }\n  }\n\n  /**\n  * Boots the application on a certain port and allows for a callback once the application is running\n  * @param {Number} port The port number to start the server on\n  * @param {Fuction} callback The callback function to run onces the application has booted.\n  **/\n  listen(port = 3000, callback) {\n    require(\"http\").createServer(this.action.bind(this)).listen(port, callback);\n  }\n}\n"
+  },
+  {
+    "__docId__": 16,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "util",
+    "memberof": "src/index.js",
+    "longname": "src/index.js~util",
+    "access": null,
+    "export": false,
+    "importPath": "flame-wire/src/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 1,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 17,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "Route",
+    "memberof": "src/index.js",
+    "longname": "src/index.js~Route",
+    "access": null,
+    "export": false,
+    "importPath": "flame-wire/src/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 18,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "debug",
+    "memberof": "src/index.js",
+    "longname": "src/index.js~debug",
+    "access": null,
+    "export": false,
+    "importPath": "flame-wire/src/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 19,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "log",
+    "memberof": "src/index.js",
+    "longname": "src/index.js~log",
+    "access": null,
+    "export": false,
+    "importPath": "flame-wire/src/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 20,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "join",
+    "memberof": "src/index.js",
+    "longname": "src/index.js~join",
+    "access": null,
+    "export": false,
+    "importPath": "flame-wire/src/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 21,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "logr",
+    "memberof": "src/index.js",
+    "longname": "src/index.js~logr",
+    "access": null,
+    "export": false,
+    "importPath": "flame-wire/src/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 6,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 22,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "url",
+    "memberof": "src/index.js",
+    "longname": "src/index.js~url",
+    "access": null,
+    "export": false,
+    "importPath": "flame-wire/src/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 7,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 23,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "merge",
+    "memberof": "src/index.js",
+    "longname": "src/index.js~merge",
+    "access": null,
+    "export": false,
+    "importPath": "flame-wire/src/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 8,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 24,
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "MethodRouteAction",
+    "memberof": "src/index.js",
+    "longname": "src/index.js~MethodRouteAction",
+    "access": null,
+    "export": true,
+    "importPath": "flame-wire/src/index.js",
+    "importStyle": "{MethodRouteAction}",
+    "description": "\n\n\n\n\n****",
+    "lineNumber": 32,
+    "interface": false
+  },
+  {
+    "__docId__": 25,
+    "kind": "constructor",
+    "static": false,
+    "variation": null,
+    "name": "constructor",
+    "memberof": "src/index.js~MethodRouteAction",
+    "longname": "src/index.js~MethodRouteAction#constructor",
+    "access": null,
+    "description": "",
+    "lineNumber": 46,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "pattern",
+        "description": "The pattern for the generated route."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Function(req:ServerRequest,res:ServerResponse):Array"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "action",
+        "description": "The function the route performs if matched"
+      }
+    ],
+    "generator": false
+  },
+  {
+    "__docId__": 26,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "original_pattern",
+    "memberof": "src/index.js~MethodRouteAction",
+    "longname": "src/index.js~MethodRouteAction#original_pattern",
+    "access": null,
+    "description": null,
+    "lineNumber": 52,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 27,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "pattern",
+    "memberof": "src/index.js~MethodRouteAction",
+    "longname": "src/index.js~MethodRouteAction#pattern",
+    "access": null,
+    "description": null,
+    "lineNumber": 53,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 28,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "route",
+    "memberof": "src/index.js~MethodRouteAction",
+    "longname": "src/index.js~MethodRouteAction#route",
+    "access": null,
+    "description": null,
+    "lineNumber": 54,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 29,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "user_action",
+    "memberof": "src/index.js~MethodRouteAction",
+    "longname": "src/index.js~MethodRouteAction#user_action",
+    "access": null,
+    "description": null,
+    "lineNumber": 56,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 30,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "action",
+    "memberof": "src/index.js~MethodRouteAction",
+    "longname": "src/index.js~MethodRouteAction#action",
+    "access": null,
+    "description": "Calls the action that was passed from the constructor\n\n************",
+    "lineNumber": 63,
+    "params": [
+      {
+        "name": "req",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "res",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 31,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "getApplication",
+    "memberof": "src/index.js~MethodRouteAction",
+    "longname": "src/index.js~MethodRouteAction#getApplication",
+    "access": null,
+    "description": "Returns the Application Instance",
+    "lineNumber": 77,
+    "params": [],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Application"
+      ],
+      "spread": false,
+      "description": "*********"
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 32,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "match",
+    "memberof": "src/index.js~MethodRouteAction",
+    "longname": "src/index.js~MethodRouteAction#match",
+    "access": null,
+    "description": "Checks if the url matches the route.\n***",
+    "lineNumber": 86,
+    "params": [
+      {
+        "name": "req",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "res",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 33,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "getRoute",
+    "memberof": "src/index.js~MethodRouteAction",
+    "longname": "src/index.js~MethodRouteAction#getRoute",
+    "access": null,
+    "description": "Generates the route that can be used to test if there is a match in a url;\n\n******",
+    "lineNumber": 95,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 34,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "getPattern",
+    "memberof": "src/index.js~MethodRouteAction",
+    "longname": "src/index.js~MethodRouteAction#getPattern",
+    "access": null,
+    "description": "Gets the pattern for the route. This will include all of the parents url as well.\n****",
+    "lineNumber": 103,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 35,
+    "kind": "method",
+    "static": true,
+    "variation": null,
+    "name": "Router",
+    "memberof": "src/index.js~MethodRouteAction",
+    "longname": "src/index.js~MethodRouteAction.Router",
+    "access": null,
+    "description": "Gemerates a Router parent. This can be used to add more to the main router",
+    "lineNumber": 118,
+    "params": [],
+    "return": {
+      "nullable": null,
+      "types": [
+        "ParentRouteAction"
+      ],
+      "spread": false,
+      "description": "*****"
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 36,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "register",
+    "memberof": "src/index.js~MethodRouteAction",
+    "longname": "src/index.js~MethodRouteAction#register",
+    "access": null,
+    "description": "",
+    "lineNumber": 127,
+    "params": [
+      {
+        "name": "_class",
+        "optional": true,
+        "types": [
+          "*"
+        ],
+        "defaultRaw": null,
+        "defaultValue": "null"
+      },
+      {
+        "name": "url",
+        "optional": true,
+        "types": [
+          "string"
+        ],
+        "defaultRaw": "/",
+        "defaultValue": "/"
+      },
+      {
+        "name": "action",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Function"
+      ],
+      "spread": false,
+      "description": "used to unregister an added route\n\n***"
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 37,
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "ParentRouteAction",
+    "memberof": "src/index.js",
+    "longname": "src/index.js~ParentRouteAction",
+    "access": null,
+    "export": true,
+    "importPath": "flame-wire/src/index.js",
+    "importStyle": "{ParentRouteAction}",
+    "description": "",
+    "lineNumber": 161,
+    "interface": false,
+    "extends": [
+      "MethodRouteAction"
+    ]
+  },
+  {
+    "__docId__": 38,
+    "kind": "constructor",
+    "static": false,
+    "variation": null,
+    "name": "constructor",
+    "memberof": "src/index.js~ParentRouteAction",
+    "longname": "src/index.js~ParentRouteAction#constructor",
+    "access": null,
+    "description": "",
+    "lineNumber": 169,
+    "params": [
+      {
+        "name": "pattern",
+        "optional": true,
+        "types": [
+          "string"
+        ],
+        "defaultRaw": "",
+        "defaultValue": ""
+      }
+    ],
+    "generator": false
+  },
+  {
+    "__docId__": 39,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "pattern",
+    "memberof": "src/index.js~ParentRouteAction",
+    "longname": "src/index.js~ParentRouteAction#pattern",
+    "access": null,
+    "description": null,
+    "lineNumber": 171,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 40,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "children",
+    "memberof": "src/index.js~ParentRouteAction",
+    "longname": "src/index.js~ParentRouteAction#children",
+    "access": null,
+    "description": null,
+    "lineNumber": 172,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 41,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "getRoute",
+    "memberof": "src/index.js~ParentRouteAction",
+    "longname": "src/index.js~ParentRouteAction#getRoute",
+    "access": null,
+    "description": null,
+    "lineNumber": 175,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 42,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "match",
+    "memberof": "src/index.js~ParentRouteAction",
+    "longname": "src/index.js~ParentRouteAction#match",
+    "access": null,
+    "description": null,
+    "lineNumber": 181,
+    "undocument": true,
+    "params": [
+      {
+        "name": "req",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "res",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 43,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "register",
+    "memberof": "src/index.js~ParentRouteAction",
+    "longname": "src/index.js~ParentRouteAction#register",
+    "access": null,
+    "description": null,
+    "lineNumber": 199,
+    "undocument": true,
+    "params": [
+      {
+        "name": "_class",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "url",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "action",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 44,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "action",
+    "memberof": "src/index.js~ParentRouteAction",
+    "longname": "src/index.js~ParentRouteAction#action",
+    "access": null,
+    "description": null,
+    "lineNumber": 203,
+    "undocument": true,
+    "params": [
+      {
+        "name": "req",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "res",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 45,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "get",
+    "memberof": "src/index.js~ParentRouteAction",
+    "longname": "src/index.js~ParentRouteAction#get",
+    "access": null,
+    "description": null,
+    "lineNumber": 230,
+    "undocument": true,
+    "params": [
+      {
+        "name": "url",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "action",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 46,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "post",
+    "memberof": "src/index.js~ParentRouteAction",
+    "longname": "src/index.js~ParentRouteAction#post",
+    "access": null,
+    "description": null,
+    "lineNumber": 234,
+    "undocument": true,
+    "params": [
+      {
+        "name": "url",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "action",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 47,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "use",
+    "memberof": "src/index.js~ParentRouteAction",
+    "longname": "src/index.js~ParentRouteAction#use",
+    "access": null,
+    "description": null,
+    "lineNumber": 238,
+    "undocument": true,
+    "params": [
+      {
+        "name": "url",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "action",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 48,
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "PostRouteAction",
+    "memberof": "src/index.js",
+    "longname": "src/index.js~PostRouteAction",
+    "access": null,
+    "export": true,
+    "importPath": "flame-wire/src/index.js",
+    "importStyle": "{PostRouteAction}",
+    "description": "Allows only post navigation. This class is used when app.post is used",
+    "lineNumber": 249,
+    "interface": false,
+    "extends": [
+      "MethodRouteAction"
+    ]
+  },
+  {
+    "__docId__": 49,
+    "kind": "constructor",
+    "static": false,
+    "variation": null,
+    "name": "constructor",
+    "memberof": "src/index.js~PostRouteAction",
+    "longname": "src/index.js~PostRouteAction#constructor",
+    "access": null,
+    "description": null,
+    "lineNumber": 251,
+    "undocument": true,
+    "params": [
+      {
+        "name": "pattern",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "action",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "generator": false
+  },
+  {
+    "__docId__": 50,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "match",
+    "memberof": "src/index.js~PostRouteAction",
+    "longname": "src/index.js~PostRouteAction#match",
+    "access": null,
+    "description": null,
+    "lineNumber": 255,
+    "undocument": true,
+    "params": [
+      {
+        "name": "req",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "res",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 51,
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "GetRouterAction",
+    "memberof": "src/index.js",
+    "longname": "src/index.js~GetRouterAction",
+    "access": null,
+    "export": true,
+    "importPath": "flame-wire/src/index.js",
+    "importStyle": "{GetRouterAction}",
+    "description": "\n\nAllows for Get Request navigation. used by app.get method",
+    "lineNumber": 278,
+    "interface": false,
+    "extends": [
+      "MethodRouteAction"
+    ]
+  },
+  {
+    "__docId__": 52,
+    "kind": "constructor",
+    "static": false,
+    "variation": null,
+    "name": "constructor",
+    "memberof": "src/index.js~GetRouterAction",
+    "longname": "src/index.js~GetRouterAction#constructor",
+    "access": null,
+    "description": null,
+    "lineNumber": 279,
+    "undocument": true,
+    "params": [
+      {
+        "name": "pattern",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "action",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "generator": false
+  },
+  {
+    "__docId__": 53,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "match",
+    "memberof": "src/index.js~GetRouterAction",
+    "longname": "src/index.js~GetRouterAction#match",
+    "access": null,
+    "description": null,
+    "lineNumber": 283,
+    "undocument": true,
+    "params": [
+      {
+        "name": "req",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "res",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 54,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "midlets",
+    "memberof": "src/index.js",
+    "longname": "src/index.js~midlets",
+    "access": null,
+    "export": false,
+    "importPath": "flame-wire/src/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 291,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 55,
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "Application",
+    "memberof": "src/index.js",
+    "longname": "src/index.js~Application",
+    "access": null,
+    "export": true,
+    "importPath": "flame-wire/src/index.js",
+    "importStyle": "{Application}",
+    "description": "This is the main application route. It is also the route that everything will be linked to.\nThis is used to create the server",
+    "lineNumber": 298,
+    "interface": false,
+    "extends": [
+      "ParentRouteAction"
+    ]
+  },
+  {
+    "__docId__": 56,
+    "kind": "constructor",
+    "static": false,
+    "variation": null,
+    "name": "constructor",
+    "memberof": "src/index.js~Application",
+    "longname": "src/index.js~Application#constructor",
+    "access": null,
+    "description": null,
+    "lineNumber": 300,
+    "undocument": true,
+    "params": [],
+    "generator": false
+  },
+  {
+    "__docId__": 57,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "container",
+    "memberof": "src/index.js~Application",
+    "longname": "src/index.js~Application#container",
+    "access": null,
+    "description": null,
+    "lineNumber": 304,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 58,
+    "kind": "method",
+    "static": true,
+    "variation": null,
+    "name": "Router",
+    "memberof": "src/index.js~Application",
+    "longname": "src/index.js~Application.Router",
+    "access": null,
+    "description": null,
+    "lineNumber": 310,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 59,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "setInstance",
+    "memberof": "src/index.js~Application",
+    "longname": "src/index.js~Application#setInstance",
+    "access": null,
+    "description": "Allows the developer to set a singleton. They can then retrieve this value with getItem method",
+    "lineNumber": 319,
+    "params": [],
+    "generator": false
+  },
+  {
+    "__docId__": 60,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "getItem",
+    "memberof": "src/index.js~Application",
+    "longname": "src/index.js~Application#getItem",
+    "access": null,
+    "description": "",
+    "lineNumber": 329,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "name",
+        "description": "The name of the item stored in the Application container.\n\n*****"
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 61,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "action",
+    "memberof": "src/index.js~Application",
+    "longname": "src/index.js~Application#action",
+    "access": null,
+    "description": null,
+    "lineNumber": 335,
+    "undocument": true,
+    "params": [
+      {
+        "name": "req",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "res",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 62,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "registerMidlet",
+    "memberof": "src/index.js~Application",
+    "longname": "src/index.js~Application#registerMidlet",
+    "access": null,
+    "description": null,
+    "lineNumber": 344,
+    "undocument": true,
+    "params": [
+      {
+        "name": "name",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "dependencies",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "action",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "overrides",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "generator": false
+  },
+  {
+    "__docId__": 63,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "pipe",
+    "memberof": "src/index.js~Application",
+    "longname": "src/index.js~Application#pipe",
+    "access": null,
+    "description": null,
+    "lineNumber": 353,
+    "undocument": true,
+    "params": [
+      {
+        "name": "names",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "req",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "res",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "generator": false
+  },
+  {
+    "__docId__": 64,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "listen",
+    "memberof": "src/index.js~Application",
+    "longname": "src/index.js~Application#listen",
+    "access": null,
+    "description": "Boots the application on a certain port and allows for a callback once the application is running",
+    "lineNumber": 388,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Number"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "port",
+        "description": "The port number to start the server on"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Fuction"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "callback",
+        "description": "The callback function to run onces the application has booted."
+      }
+    ],
+    "generator": false
+  },
+  {
+    "__docId__": 66,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Infinity",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Infinity",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Infinity",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 67,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "NaN",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NaN",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~NaN",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 68,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "undefined",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~undefined",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 69,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "null",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~null",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 70,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Object",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Object",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 71,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "object",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~object",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 72,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Function",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Function",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 73,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "function",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~function",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 74,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Boolean",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Boolean",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 75,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "boolean",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~boolean",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 76,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Symbol",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Symbol",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 77,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Error",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Error",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 78,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "EvalError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/EvalError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~EvalError",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 79,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "InternalError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/InternalError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~InternalError",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 80,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "RangeError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~RangeError",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 81,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "ReferenceError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~ReferenceError",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 82,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "SyntaxError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~SyntaxError",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 83,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "TypeError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~TypeError",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 84,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "URIError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/URIError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~URIError",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 85,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Number",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Number",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 86,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "number",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~number",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 87,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Date",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Date",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 88,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "String",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~String",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 89,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "string",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~string",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 90,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "RegExp",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~RegExp",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 91,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Array",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 92,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Int8Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int8Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Int8Array",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 93,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Uint8Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Uint8Array",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 94,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Uint8ClampedArray",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8ClampedArray",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Uint8ClampedArray",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 95,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Int16Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int16Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Int16Array",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 96,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Uint16Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint16Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Uint16Array",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 97,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Int32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int32Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Int32Array",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 98,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Uint32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Uint32Array",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 99,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Float32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Float32Array",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 100,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Float64Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Float64Array",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 101,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Map",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Map",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 102,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Set",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Set",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 103,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "WeakMap",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~WeakMap",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 104,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "WeakSet",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~WeakSet",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 105,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "ArrayBuffer",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~ArrayBuffer",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 106,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "DataView",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~DataView",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 107,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "JSON",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~JSON",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 108,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Promise",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Promise",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 109,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Generator",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Generator",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 110,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "GeneratorFunction",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~GeneratorFunction",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 111,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Reflect",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Reflect",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 112,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Proxy",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Proxy",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 114,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "CanvasRenderingContext2D",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~CanvasRenderingContext2D",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 115,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "DocumentFragment",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~DocumentFragment",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 116,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Element",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/Element",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~Element",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 117,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Event",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/Event",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~Event",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 118,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Node",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/Node",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~Node",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 119,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "NodeList",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/NodeList",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~NodeList",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 120,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "XMLHttpRequest",
+    "externalLink": "https://developer.mozilla.org/en/docs/Web/API/XMLHttpRequest",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~XMLHttpRequest",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 121,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "AudioContext",
+    "externalLink": "https://developer.mozilla.org/en/docs/Web/API/AudioContext",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~AudioContext",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  }
+]
